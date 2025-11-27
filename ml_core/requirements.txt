@@ -1,0 +1,10 @@
+# Updated for Python 3.13 compatibility with pre-built wheels
+torch>=2.0.0
+transformers>=4.40.0
+peft>=0.10.0
+accelerate>=0.27.0
+# bitsandbytes removed - not compatible with Windows/Python 3.13
+datasets>=2.18.0
+tqdm>=4.66.1
+sentencepiece>=0.1.99
+protobuf>=3.20.0

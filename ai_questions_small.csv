@@ -1,0 +1,16 @@
+Model_ID,Model_Name,Task_Type,Parameter_Count_B,Training_Cost_USD,Accuracy_Score,Latency_ms
+AI-001,NeuroText-G1,NLP - Generation,175.0,4500000,0.94,120
+AI-002,VisionPro-X,Computer Vision,0.8,150000,0.89,45
+AI-003,SpeechFlow-V2,Audio Processing,1.2,300000,0.91,80
+AI-004,AlphaCode-Dev,Code Generation,50.0,1200000,0.85,200
+AI-005,DetectNet-Lite,Object Detection,0.05,25000,0.78,15
+AI-006,Sentiment-IQ,Sentiment Analysis,0.3,50000,0.92,25
+AI-007,FinForecast-Pro,Time Series,2.5,600000,0.88,60
+AI-008,MediScan-AI,Medical Imaging,12.0,2000000,0.96,150
+AI-009,ChatBot-Micro,Conversational AI,7.0,180000,0.82,35
+AI-010,ArtGenerator-Z,Image Synthesis,8.5,950000,0.90,400
+AI-011,FraudGuard-Net,Anomaly Detection,1.5,400000,0.97,30
+AI-012,Translate-Univ,Translation,60.0,3200000,0.93,110
+AI-013,RoboControl-v4,Robotics,0.2,80000,0.86,10
+AI-014,LegalEagle-Doc,Document Analysis,15.0,750000,0.91,90
+AI-015,WeatherMind,Predictive Analytics,4.0,550000,0.84,55
