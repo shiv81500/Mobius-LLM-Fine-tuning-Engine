@@ -65,16 +65,16 @@ class Step3ConfigWidget(QWidget):
         form_layout.setSpacing(10)
 
         # Learning rate
-        self.lr_edit = QLineEdit("0.0002")
+        self.lr_edit = QLineEdit("2e-4")
         self.lr_edit.setFixedHeight(35)
         form_layout.addRow("Learning Rate:", self.lr_edit)
-        form_layout.addRow("", QLabel("Recommended: 0.0001 - 0.0003 for LoRA"))
+        form_layout.addRow("", QLabel("Recommended: 2e-4 for Qwen/SmolLM fine-tuning"))
 
         # Epochs
-        self.epochs_edit = QLineEdit("1")
+        self.epochs_edit = QLineEdit("15")
         self.epochs_edit.setFixedHeight(35)
         form_layout.addRow("Number of Epochs:", self.epochs_edit)
-        form_layout.addRow("", QLabel("⚠️ CPU Mode: Start with 1 epoch (very slow)"))
+        form_layout.addRow("", QLabel("⚠️ Small datasets (<50 examples) need 15-20 epochs"))
 
         # Batch size
         self.batch_size_edit = QLineEdit("1")
@@ -85,7 +85,7 @@ class Step3ConfigWidget(QWidget):
         # LoRA Rank
         self.lora_rank_combo = QComboBox()
         self.lora_rank_combo.setFixedHeight(35)
-        self.lora_rank_combo.addItems(["8", "16", "32", "64"])
+        self.lora_rank_combo.addItems(["4", "8", "16", "32", "64"])
         self.lora_rank_combo.setCurrentText("8")
         self.lora_rank_combo.currentTextChanged.connect(self.on_rank_changed)
         form_layout.addRow("LoRA Rank:", self.lora_rank_combo)
@@ -105,7 +105,7 @@ class Step3ConfigWidget(QWidget):
         form_layout.addRow("", QLabel("Q4_K_M = smaller, Q8_0 = highest quality"))
 
         # Low-RAM defaults note (applied silently)
-        form_layout.addRow("", QLabel("Low-RAM mode: batch=1, gradAccum=16, maxLen=128, stream on"))
+        form_layout.addRow("", QLabel("Low-RAM mode: batch=1, gradAccum=8, maxLen=256, stream on"))
 
         layout.addLayout(form_layout)
         layout.addStretch()

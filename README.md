@@ -1,446 +1,269 @@
-# LLM Fine-Tuning Desktop Application
+# 🚀 Mobius LLM Fine-Tuning Engine
 
-A complete desktop application for fine-tuning Large Language Models with local GGUF model export. Built with a three-component architecture:
+<div align="center">
 
-1. **Python PyQt6 GUI** - User-facing desktop interface
-2. **Java Backend** - Orchestration engine with custom DSA implementations
-3. **Python ML Core** - Training and GGUF conversion scripts
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21+-orange?style=for-the-badge&logo=openjdk&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red?style=for-the-badge&logo=pytorch&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## Low-RAM (<4GB) Usage
+**A complete desktop application for fine-tuning Large Language Models on CPU/GPU with GGUF export for LM Studio**
 
-For machines with ~8GB system RAM and <4GB available for Python, use the new low-memory pipeline:
+[Features](#-features) • [Quick Start](#-quick-start) • [Model Guide](#-model-recommendations) • [Training Tips](#-training-tips)
 
-1. Choose a very small base model (examples):
-   - `distilgpt2`
-   - `tiiuae/falcon-rw-1b` (may be borderline) or a 0.5–1B class model
-2. Use streaming dataset mode to avoid loading entire files:
+</div>
+
+---
+
+## 🎯 What is This?
+
+Mobius is a **local LLM fine-tuning engine** that lets you:
+- Fine-tune small language models on your own data
+- Export to GGUF format for use in **LM Studio**, Ollama, or llama.cpp
+- Train on **CPU** (no GPU required!) with optimized settings
+
+### Architecture
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  PyQt6 GUI      │────▶│  Java Backend   │────▶│  Python ML Core │
+│  (Desktop App)  │◀────│  (Orchestrator) │◀────│  (Training)     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 📁 **Multi-Format Data** | Upload JSONL, CSV, or TXT training data |
+| 🤖 **Model Selection** | Choose from CPU-optimized models |
+| ⚙️ **LoRA Fine-Tuning** | Memory-efficient training with LoRA |
+| 📊 **Live Monitoring** | Real-time training logs and metrics |
+| ⏸️ **Training Controls** | Pause, resume, or cancel training |
+| 📦 **GGUF Export** | Convert to GGUF for LM Studio |
+| 💻 **CPU Optimized** | Works on systems with 8GB RAM |
+
+---
+
+## 🔧 Model Recommendations
+
+### For CPU Systems (8GB RAM)
+
+| Model | Parameters | RAM Usage | Best For | Training Time |
+|-------|------------|-----------|----------|---------------|
+| **Qwen2-0.5B-Instruct** ⭐ | 500M | ~1GB | Q&A, Instructions | Fast |
+| **SmolLM-360M-Instruct** | 360M | ~500MB | Simple Q&A | Fastest |
+| **TinyLlama-1.1B-Chat** | 1.1B | ~2GB | Conversations | Medium |
+| **Phi-2** | 2.7B | ~4GB | Complex Tasks | Slow |
+
+### ⚠️ Models to AVOID on CPU
+
+| Model | Why Avoid |
+|-------|-----------|
+| DistilGPT2 | Not instruction-tuned, gives gibberish for Q&A |
+| GPT-2 | Completion only, doesn't follow instructions |
+| Llama-3-8B | Too large, needs 16GB+ RAM |
+| Mistral-7B | Too large, needs 14GB+ RAM |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Python 3.10+**
+- **Java 21+**
+- **Maven**
+- **8GB+ RAM**
+
+### Installation
 
 ```powershell
-python ml_core/training_script.py `
-  --job-id test1 `
-  --dataset data/datasets/demo.jsonl `
-  --base-model distilgpt2 `
-  --output-dir models/test1 `
-  --batch-size 1 `
-  --grad-accum 16 `
-  --max-length 128 `
-  --epochs 1 `
-  --learning-rate 5e-5 `
-  --stream
-```
+# 1. Clone the repository
+git clone https://github.com/Adil-Ijaz7/Mobius-LLM-Fine-tuning-Engine.git
+cd Mobius-LLM-Fine-tuning-Engine
 
-Key memory-saving features:
-- Batch size 1 + gradient accumulation simulates larger effective batch.
-- `--max-length 128` trims sequences (reduce to 64 if still high memory).
-- Streaming loaders (`--stream`) prevent full dataset materialization.
-- Adafactor optimizer cuts optimizer state memory vs AdamW.
-- Gradient checkpointing reduces activation memory.
+# 2. Create Python virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 
-Further tips:
-- Close other applications to free RAM.
-- Prefer plain JSONL over large CSV with many columns.
-- If tokenization is slow streamed, you can pre-tokenize a small subset offline.
+# 3. Install Python dependencies
+pip install -r ml_core/requirements.txt
+pip install -r gui/requirements.txt
 
-If you still exceed memory:
-- Lower `--max-length` to 64.
-- Increase `--grad-accum` (e.g. 32) and keep `--batch-size 1`.
-- Reduce LoRA rank: `--lora-rank 4 --lora-alpha 8`.
-- Train only for 1 epoch as a functional smoke test before longer runs.
-
-
-## Features
-
-- Upload training data (JSONL, CSV, or TXT formats)
-- Select from popular base models (Llama, Mistral, Phi-3)
-- Configure LoRA hyperparameters
-- Real-time training monitoring with live logs and metrics
-- Pause/resume/cancel training controls
-- Export quantized GGUF models for local inference
-
-## Prerequisites
-
-### For GPU Training (Recommended)
-- **Java 21+** (for backend) - LTS version required
-- **Python 3.10 or 3.11** (for GUI and ML Core)
-- **Maven** (for building Java backend)
-- **CUDA-capable GPU** with 8GB+ VRAM (NVIDIA)
-- **Git** (for cloning llama.cpp)
-- **16GB+ System RAM**
-- **50GB+ free disk space** (for models and data)
-
-### For CPU Training (Your Ryzen 5 2500U System)
-- **Java 21+** (for backend) - LTS version required
-- **Python 3.13+** (for GUI and ML Core)
-- **Maven** (for building Java backend)
-- **Git** (for cloning llama.cpp)
-- **7-8GB+ System RAM** (minimum)
-- **20GB+ free disk space** (for small models)
-- ⚠️ **Use TinyLlama (1.1B) or smaller models only**
-- ⚠️ **Training will be 10-50x slower than GPU**
-- ⚠️ **Use small datasets (100-500 examples max)**
-
-## Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd JavaDSAProject
-```
-
-### 2. Build Java Backend
-
-```bash
+# 4. Build Java backend
 mvn clean package
 ```
 
-This creates `target/llm-trainer-backend-1.0.0.jar`
+### Running
 
-### 3. Setup Python GUI
-
-```bash
-cd gui
-pip install -r requirements.txt
-cd ..
-```
-
-### 4. Setup Python ML Core
-
-```bash
-cd ml_core
-
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Clone and build llama.cpp
-chmod +x setup.sh
-./setup.sh
-
-cd ..
-```
-
-The setup script will clone llama.cpp and build the quantization tools.
-
-## Running the Application
-
-### Step 1: Start Java Backend
-
-In the project root directory:
-
-```bash
+**Terminal 1 - Start Backend:**
+```powershell
 java -jar target/llm-trainer-backend-1.0.0.jar
 ```
 
-**Expected output:**
-```
-===================================
-LLM Training Backend
-===================================
-Creating data directories...
-Initializing components...
-Data Manager initialized
-Job Queue Manager initialized
-Log Store initialized
-Process Orchestrator initialized
-Starting HTTP server on port 8080...
-LLM Training Backend running on http://localhost:8080
-===================================
-Backend ready. Press Ctrl+C to stop.
-===================================
-```
-
-Leave this terminal running.
-
-### Step 2: Start Python GUI
-
-In a **new terminal**, from the project root:
-
-```bash
+**Terminal 2 - Start GUI:**
+```powershell
 cd gui
 python main.py
 ```
 
-The GUI will check backend connectivity and open the main window.
+---
 
-## User Workflow
+## 📝 Training Data Format
 
-### Step 1: Project Setup
+Your data should be in **JSONL format** with `instruction` and `response` fields:
 
-- Enter a project name
-- Select a base model to fine-tune:
-  
-  **✅ CPU-Compatible Models (for Ryzen 5 2500U with 7.8GB RAM):**
-  - **TinyLlama-1.1B** (Recommended - 1.1B params, trains in hours)
-  - **Phi-2** (2.7B params, may be slow but works)
-  - **Qwen-0.5B** (500M params, very fast)
-  - **DistilGPT-2** (82M params, for testing)
-  - **GPT-2** (124M params, classic model)
-  
-  **❌ GPU-Only Models (Require 8GB+ VRAM):**
-  - Llama-3-8B / Llama-3.1-8B / Llama-3.2-3B
-  - Mistral-7B-v0.2
-  - Phi-3-mini / Phi-3-medium
-
-**Tip for CPU:** Use TinyLlama with batch_size=1 and small datasets (100-500 examples). Training will be slow (10-50x slower than GPU) but will work on your system.
-
-### Step 2: Upload Training Data
-
-- Click "Choose File" and select your dataset
-- Supported formats:
-  - **JSONL**: One JSON object per line with `instruction` and `response` keys
-  - **CSV**: Tabular data with text columns
-  - **TXT**: Plain text for completion-style training
-- Click "Upload to Backend"
-
-**Example JSONL format:**
 ```jsonl
-{"instruction": "What is AI?", "response": "AI stands for Artificial Intelligence..."}
-{"instruction": "Explain machine learning", "response": "Machine learning is..."}
+{"instruction": "What is machine learning?", "response": "Machine learning is a subset of AI..."}
+{"instruction": "Explain neural networks", "response": "Neural networks are computing systems..."}
+{"instruction": "What is Python?", "response": "Python is a programming language..."}
 ```
 
-### Step 3: Configure Hyperparameters
+### Recommended Dataset Size
 
-**For GPU Training (8GB+ VRAM):**
-- **Learning Rate**: 0.0001 - 0.0003 (recommended for LoRA)
-- **Epochs**: Number of training passes over the dataset
-- **Batch Size**: Lower values use less VRAM (try 2-4 for 8GB GPU)
-- **LoRA Rank**: 8, 16, 32, or 64 (higher = more trainable parameters)
+| Dataset Size | Epochs | Expected Quality |
+|--------------|--------|------------------|
+| 17 examples | 15-20 | Basic memorization |
+| 50-100 examples | 10-15 | Good learning |
+| 200-500 examples | 5-10 | Excellent results |
+| 1000+ examples | 3-5 | Production quality |
 
-**For CPU Training (Ryzen 5 2500U with 7.8GB RAM):**
-- **Learning Rate**: 0.0002 (default is fine)
-- **Epochs**: 1 (start with just 1 epoch - training is very slow)
-- **Batch Size**: 1 (MUST use 1 for low memory)
-- **LoRA Rank**: 8 (lower rank uses less memory)
-- **LoRA Alpha**: Usually 2x the rank
-- **Quantization**: Q4_K_M (smaller), Q5_K_M, or Q8_0 (highest quality)
+---
 
-Click "Next" to create the training job.
+## ⚙️ Training Settings for CPU
 
-### Step 4: Training
+### Recommended Configuration
 
-- Click "Start Training" to begin
-- Monitor real-time:
-  - **Loss**: Training loss value
-  - **Epoch**: Current epoch progress
-  - **Step**: Current training step
-  - **Speed**: Samples per second
-  - **Logs**: Live training output
+| Setting | Value | Why |
+|---------|-------|-----|
+| **Model** | `Qwen/Qwen2-0.5B-Instruct` | Small, instruction-tuned |
+| **Epochs** | 10-20 | Small datasets need more passes |
+| **Batch Size** | 1 | Memory efficiency |
+| **Grad Accumulation** | 8 | Simulates larger batches |
+| **Learning Rate** | 2e-4 | Good for small models |
+| **Max Length** | 256 | Covers most Q&A pairs |
+| **LoRA Rank** | 8 | CPU-efficient |
+| **LoRA Alpha** | 16 | Standard ratio |
 
-**Controls:**
-- **Pause**: Temporarily stop training
-- **Resume**: Continue paused training
-- **Cancel**: Stop and abandon training
+### Command Line Training
 
-Wait for "Training completed successfully!" message.
-
-### Step 5: Export Model
-
-- Click "Convert to GGUF" to start conversion
-- Wait for conversion to complete
-- Click "Download GGUF Model" to save the model locally
-- Choose a location and filename
-
-The downloaded `.gguf` file can be used with llama.cpp, Ollama, LM Studio, or other local inference tools.
-
-## Project Structure
-
-```
-JavaDSAProject/
-├── src/main/java/com/llmtrainer/     # Java backend source
-│   ├── Main.java                     # Entry point
-│   ├── api/                          # REST API handlers
-│   ├── model/                        # Data models
-│   ├── queue/                        # Job queue (LinkedList FIFO)
-│   ├── storage/                      # Dataset storage (HashMap)
-│   ├── logging/                      # Log store (Circular buffer)
-│   ├── orchestrator/                 # Process management
-│   └── util/                         # Utilities (JSON, UUID)
-├── gui/                              # Python PyQt6 GUI
-│   ├── main.py                       # GUI entry point
-│   ├── main_window.py                # Wizard controller
-│   ├── api/backend_client.py         # REST API client
-│   ├── steps/                        # Wizard step widgets
-│   └── utils/                        # Validators, formatters
-├── ml_core/                          # Python ML scripts
-│   ├── training_script.py            # LoRA fine-tuning
-│   ├── convert_to_gguf.py            # GGUF conversion
-│   ├── data_loader.py                # Dataset loading
-│   ├── training_utils.py             # Helper functions
-│   └── llama.cpp/                    # (created by setup.sh)
-├── data/                             # Runtime data (created automatically)
-│   ├── datasets/                     # Uploaded training data
-│   ├── models/                       # Trained model weights
-│   ├── gguf/                         # Final GGUF files
-│   └── logs/                         # Training logs
-├── pom.xml                           # Maven build configuration
-└── README.md                         # This file
+```powershell
+python ml_core/training_script.py `
+  --job-id my-training `
+  --dataset data.jsonl `
+  --base-model "Qwen/Qwen2-0.5B-Instruct" `
+  --output-dir ./output `
+  --epochs 15 `
+  --batch-size 1 `
+  --grad-accum 8 `
+  --learning-rate 2e-4 `
+  --max-length 256 `
+  --lora-rank 8 `
+  --lora-alpha 16
 ```
 
-## Architecture
+---
+
+## 📦 Using in LM Studio
+
+After training, export to GGUF:
+
+1. **Merge LoRA adapters** with base model
+2. **Convert to GGUF** using llama.cpp
+3. **Load in LM Studio** with correct prompt template
+
+### LM Studio Prompt Template
+
+Set these in LM Studio → Settings → Prompt Template:
+
+| Field | Value |
+|-------|-------|
+| Before User | `### Instruction:\n` |
+| After User | `\n\n` |
+| Before Assistant | `### Response:\n` |
+| After Assistant | `\n\n` |
+
+---
+
+## 🔍 Troubleshooting
+
+### Model Gives Gibberish Responses
+
+**Cause:** Using completion model (DistilGPT2/GPT-2) for Q&A task
+
+**Solution:** Use instruction-tuned model like `Qwen/Qwen2-0.5B-Instruct`
+
+### Out of Memory Error
+
+**Cause:** Model too large or max_length too high
+
+**Solutions:**
+- Use smaller model (SmolLM-360M)
+- Reduce `--max-length` to 128
+- Add `--stream` flag
+- Close other applications
+
+### Training Too Slow
+
+**Cause:** CPU training is inherently slow
+
+**Solutions:**
+- Use smaller model (SmolLM vs TinyLlama)
+- Reduce epochs for testing
+- Use `--lora-rank 4` for faster training
+
+---
+
+## 📁 Project Structure
 
 ```
-[Python PyQt6 GUI] <--REST API--> [Java Backend] <--ProcessBuilder--> [Python ML Scripts]
-                                         |
-                                   [File Storage]
+Mobius-LLM-Fine-tuning-Engine/
+├── gui/                    # PyQt6 Desktop Application
+│   ├── main.py            # Entry point
+│   ├── main_window.py     # Main window UI
+│   ├── steps/             # Wizard step panels
+│   └── api/               # Backend API client
+├── ml_core/               # Python ML Training
+│   ├── training_script.py # Main training script
+│   ├── data_loader.py     # Dataset loading
+│   ├── convert_to_gguf.py # GGUF conversion
+│   └── cpu_models.txt     # Model recommendations
+├── src/main/java/         # Java Backend
+│   └── com/llmtrainer/    # Backend services
+├── data/                  # Training data storage
+└── pom.xml               # Maven build config
 ```
 
-### Communication Flow
+---
 
-1. **GUI → Backend**: REST API calls (HTTP/JSON)
-2. **Backend → ML Scripts**: ProcessBuilder (command-line)
-3. **ML Scripts → Backend**: stdout/stderr streams (logs and metrics)
-4. **Backend → GUI**: Polling (status, logs, metrics)
+## 🤝 Contributing
 
-### Data Structures
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-The Java backend implements custom data structures:
+---
 
-- **Job Queue**: LinkedList-based FIFO queue (O(1) enqueue/dequeue)
-- **Dataset Storage**: HashMap (O(1) lookup)
-- **Log Store**: Circular buffer (O(1) append, efficient streaming)
+## 📄 License
 
-## API Endpoints
+MIT License - see [LICENSE](LICENSE) for details.
 
-The Java backend exposes a REST API on `http://localhost:8080/api`:
+---
 
-### Datasets
-- `POST /api/datasets/upload` - Upload training data
-- `GET /api/datasets/{datasetId}` - Get dataset metadata
-- `DELETE /api/datasets/{datasetId}` - Delete dataset
+## 👤 Author
 
-### Jobs
-- `POST /api/jobs/create` - Create training job
-- `POST /api/jobs/{jobId}/start` - Start training
-- `POST /api/jobs/{jobId}/pause` - Pause training
-- `POST /api/jobs/{jobId}/resume` - Resume training
-- `POST /api/jobs/{jobId}/cancel` - Cancel training
-- `GET /api/jobs/{jobId}/status` - Get job status
-- `GET /api/jobs/{jobId}/logs` - Get training logs
-- `GET /api/jobs/{jobId}/metrics` - Get training metrics
-- `GET /api/jobs/queue` - Get all jobs
-- `POST /api/jobs/{jobId}/convert-gguf` - Start GGUF conversion
-- `GET /api/jobs/{jobId}/download-gguf` - Download GGUF file
+**Adil Ijaz**
+- GitHub: [@Adil-Ijaz7](https://github.com/Adil-Ijaz7)
 
-## Troubleshooting
+---
 
-### Backend won't start
+<div align="center">
 
-**Error:** `Port 8080 already in use`
+⭐ **Star this repo if you find it helpful!** ⭐
 
-**Solution:** Another process is using port 8080. Kill it or change the port in `ApiServer.java`.
-
-### GUI can't connect to backend
-
-**Error:** "Backend not running"
-
-**Solution:**
-1. Make sure Java backend is running first
-2. Check that backend shows "running on http://localhost:8080"
-3. Try restarting the backend
-
-### Training fails with CUDA error
-
-**Error:** "CUDA out of memory"
-
-**Solution:**
-- Reduce batch size (try 2 or even 1)
-- Use a smaller base model (Llama-3.2-3B instead of Llama-3-8B)
-- Close other applications using GPU memory
-
-### GGUF conversion fails
-
-**Error:** "llama.cpp not built"
-
-**Solution:**
-```bash
-cd ml_core
-chmod +x setup.sh
-./setup.sh
-```
-
-### Model download is slow
-
-This is normal. Model files are several GB in size. Progress bar shows download status.
-
-## Configuration
-
-### Change Backend Port
-
-Edit `src/main/java/com/llmtrainer/api/ApiServer.java`:
-
-```java
-this.server = HttpServer.create(new InetSocketAddress("localhost", 9000), 0);
-```
-
-Also update `gui/api/backend_client.py`:
-
-```python
-def __init__(self, base_url: str = "http://localhost:9000/api"):
-```
-
-### Use Specific GPU
-
-```bash
-CUDA_VISIBLE_DEVICES=0 java -jar target/llm-trainer-backend-1.0.0.jar
-```
-
-## Development
-
-### Build Backend
-
-```bash
-mvn clean package
-```
-
-### Run Backend in Development
-
-```bash
-mvn exec:java -Dexec.mainClass="com.llmtrainer.Main"
-```
-
-### GUI Development
-
-```bash
-cd gui
-python main.py
-```
-
-## System Requirements
-
-### For GPU Training (Recommended)
-
-**Minimum:**
-- 8GB GPU VRAM (NVIDIA with CUDA)
-- 16GB System RAM
-- 50GB free disk space
-- 4-core CPU
-
-**Recommended:**
-- 16GB+ GPU VRAM (for larger models)
-- 32GB System RAM
-- 100GB+ free disk space (for multiple projects)
-- 8-core CPU
-
-### For CPU Training (Your Ryzen 5 2500U System)
-
-**Your Hardware:**
-- ✅ AMD Ryzen 5 2500U (4 cores, 8 threads)
-- ✅ Vega 8 integrated graphics (2GB shared VRAM)
-- ✅ 7.8GB System RAM
-- ✅ Works with TinyLlama (1.1B) and smaller models
-
-**Limitations:**
-- ⚠️ Training is 10-50x slower than GPU
-- ⚠️ Must use small models (< 2B parameters)
-- ⚠️ Batch size must be 1
-- ⚠️ Limit dataset to 100-500 examples
-- ⚠️ Single epoch recommended to start
-
-**Alternative:** Consider using Google Colab (free T4 GPU) or Kaggle Notebooks for larger models.
-
-## Credits
-
-- Built with HuggingFace Transformers and PEFT
-- GGUF conversion powered by llama.cpp
-- GUI built with PyQt6
-- Backend uses Java's built-in HttpServer
+</div>

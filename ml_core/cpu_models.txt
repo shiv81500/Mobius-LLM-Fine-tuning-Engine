@@ -1,32 +1,66 @@
+# ============================================================================
 # CPU-Compatible Models for Low-Memory Systems (Ryzen 5 2500U with 7.8GB RAM)
+# ============================================================================
 # These models are small enough to train on CPU with limited memory
+# For INSTRUCTION-FOLLOWING tasks (Q&A, chat), use instruction-tuned models!
 
-# RECOMMENDED FOR YOUR SYSTEM:
+# ============================================================================
+# BEST FOR INSTRUCTION/Q&A TASKS (Your data.jsonl format):
+# ============================================================================
 
-# 1. TinyLlama-1.1B (BEST CHOICE - Only 1.1B parameters)
+# 1. Qwen2-0.5B-Instruct (BEST CHOICE - 500M params, instruction-tuned)
+#    - Already understands instruction/response format
+#    - Very fast on CPU, ~1GB RAM usage
+#    - Excellent for Q&A fine-tuning
+Qwen/Qwen2-0.5B-Instruct
+
+# 2. SmolLM-360M-Instruct (Smallest instruction model - 360M params)
+#    - HuggingFace's tiny instruction model
+#    - Fastest training, ~500MB RAM
+HuggingFaceTB/SmolLM-360M-Instruct
+
+# 3. TinyLlama-1.1B-Chat (Good balance - 1.1B params)
+#    - Chat-tuned, understands conversations
+#    - ~2GB RAM usage
 TinyLlama/TinyLlama-1.1B-Chat-v1.0
 
-# 2. Phi-2 (2.7B parameters - Small but capable)
+# 4. Phi-2 (Most capable small model - 2.7B params)
+#    - Microsoft's small but powerful model
+#    - ~4GB RAM, slower but better quality
 microsoft/phi-2
 
-# 3. Qwen-0.5B (500M parameters - Very lightweight)
-Qwen/Qwen-0.5B
+# ============================================================================
+# FOR TEXT COMPLETION ONLY (NOT recommended for Q&A):
+# ============================================================================
 
-# 4. DistilGPT-2 (82M parameters - Ultra lightweight for testing)
-distilgpt2
-
-# 5. GPT-2 Small (124M parameters - Good for learning)
+# 5. GPT-2 Small (124M parameters - Basic completion)
+#    - Only for text completion, NOT instruction following
 gpt2
 
-# AVOID THESE ON YOUR SYSTEM (Too large):
-# - meta-llama/Llama-3.2-3B (will use 6GB+ RAM)
+# 6. DistilGPT-2 (82M parameters - Testing only)
+#    - Too small for instruction tasks
+#    - Use only for testing pipeline
+distilgpt2
+
+# ============================================================================
+# AVOID THESE ON YOUR SYSTEM (Too large for 8GB RAM):
+# ============================================================================
+# - meta-llama/Llama-3.2-3B (needs 6GB+ RAM)
 # - meta-llama/Llama-3-8B (needs 16GB+ RAM)
 # - mistralai/Mistral-7B-v0.2 (needs 14GB+ RAM)
 # - microsoft/phi-3-mini (needs 8GB+ RAM)
 
-# Training Tips for CPU:
-# - Use batch_size=1
-# - Start with 1-2 epochs
-# - Use small datasets (100-500 examples max)
+# ============================================================================
+# RECOMMENDED TRAINING SETTINGS FOR YOUR HARDWARE:
+# ============================================================================
+# Model: Qwen/Qwen2-0.5B-Instruct or HuggingFaceTB/SmolLM-360M-Instruct
+# Epochs: 10-20 (small dataset needs more epochs)
+# Batch Size: 1
+# Gradient Accumulation: 8
+# Learning Rate: 2e-4 to 5e-4
+# Max Length: 256 (for Q&A data)
+# LoRA Rank: 8-16
+# LoRA Alpha: 16-32
+# Dataset Size: 50-200 examples recommended
 # - Training will be SLOW (expect 10-50x slower than GPU)
 # - Consider using Google Colab (free GPU) for larger models

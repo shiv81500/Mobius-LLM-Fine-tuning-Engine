@@ -44,18 +44,18 @@ class Step1ProjectWidget(QWidget):
         self.base_model_combo = QComboBox()
         self.base_model_combo.setFixedHeight(35)
         self.base_model_combo.addItems([
-            "TinyLlama/TinyLlama-1.1B-Chat-v1.0",  # Best for CPU/low memory
-            "microsoft/phi-2",  # 2.7B - Good balance
-            "Qwen/Qwen2.5-0.5B",  # Ultra lightweight (Updated)
-            "distilgpt2",  # 82M - For testing
-            "gpt2",  # 124M - Classic small model
+            "Qwen/Qwen2-0.5B-Instruct",  # ⭐ BEST - Instruction-tuned, 500M
+            "HuggingFaceTB/SmolLM-360M-Instruct",  # Fastest, 360M
+            "TinyLlama/TinyLlama-1.1B-Chat-v1.0",  # Good for chat, 1.1B
+            "microsoft/phi-2",  # 2.7B - Slower but capable
+            "--- NOT for Q&A (completion only) ---",
+            "distilgpt2",  # 82M - Testing only
+            "gpt2",  # 124M - Completion only
             "--- GPU Models (Requires 8GB+ VRAM) ---",
             "meta-llama/Llama-3.2-3B",
             "meta-llama/Llama-3-8B",
-            "meta-llama/Llama-3.1-8B",
             "mistralai/Mistral-7B-v0.2",
-            "microsoft/Phi-3-mini-4k-instruct",
-            "microsoft/Phi-3-medium-4k-instruct"
+            "microsoft/Phi-3-mini-4k-instruct"
         ])
         form_layout.addRow("Base Model:", self.base_model_combo)
 
@@ -63,10 +63,10 @@ class Step1ProjectWidget(QWidget):
 
         # Help text
         help_text = QLabel(
-            "⚠️ CPU Training Mode: Select TinyLlama (1.1B) or smaller models.\n"
-            "✅ TinyLlama/Phi-2 work on your Ryzen 5 2500U with 7.8GB RAM.\n"
-            "❌ Llama-3/Mistral models require dedicated GPU with 8GB+ VRAM.\n"
-            "💡 Use batch_size=1 and small datasets for CPU training."
+            "⭐ RECOMMENDED: Qwen2-0.5B-Instruct or SmolLM-360M-Instruct\n"
+            "   These are instruction-tuned and work best for Q&A data.\n\n"
+            "⚠️ AVOID: DistilGPT2/GPT-2 for Q&A tasks (they're completion models)\n\n"
+            "💡 Your Ryzen 5 2500U + 8GB RAM can train models up to ~1B params."
         )
         help_text.setWordWrap(True)
         help_text.setStyleSheet("color: #666; padding: 10px; background: #fff3cd; border-radius: 5px; border: 1px solid #ffc107;")
